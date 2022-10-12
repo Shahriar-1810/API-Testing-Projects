@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "ba65e883-82d1-497d-a9a4-e233657c7f50",
+		"name": "API_Testing_Project-2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23684538"
+	},
+	"item": [
+		{
+			"name": "All Student Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"\r",
+							"var statusCode = responseCode.code \r",
+							"\r",
+							"switch(statusCode){\r",
+							"    case 200:\r",
+							"      pm.test(\"Verify status code 200\")\r",
+							"      break\r",
+							"    case 201:\r",
+							"      pm.test(\"Verify status code 201\")\r",
+							"      break\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/api/studentsDetails",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.environment.set(\"ID\", jsonData.id)\r",
+							"\r",
+							"var statusCode = responseCode.code\r",
+							"\r",
+							"switch(statusCode){\r",
+							"  case 200:\r",
+							"        pm.test(\"Got Status Code 200\");\r",
+							"        break\r",
+							"  case 201:\r",
+							"        pm.test(\"Got Status Code 201\")\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Verify id\", function () {\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get('ID'));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify first_name\", function () {\r",
+							"    pm.expect(jsonData.first_name).to.eql(\"Sabbir\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify middle_name\", function () {\r",
+							"    pm.expect(jsonData.middle_name).to.eql(\"Rahman\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify last_name\", function () {\r",
+							"    pm.expect(jsonData.last_name).to.eql(\"Bijoy\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify date_of_birth\", function () {\r",
+							"    pm.expect(jsonData.date_of_birth).to.eql(\"10-10-1998\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"first_name\": \"Sabbir\",\r\n  \"middle_name\": \"Rahman\",\r\n  \"last_name\": \"Bijoy\",\r\n  \"date_of_birth\": \"10-10-1998\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/api/studentsDetails",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Specific Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"var StatusCode = responseCode.code \r",
+							"\r",
+							"switch(StatusCode){\r",
+							"    case 200:\r",
+							"       pm.test(\"Got Status code 200\")\r",
+							"        break\r",
+							"    case 201:\r",
+							"       pm.test(\"Got Status code 201\")  \r",
+							"        break\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Verify Status\", function(){\r",
+							"    pm.expect(jsonData.status).to.eql(\"true\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify id\", function(){\r",
+							"    pm.expect(jsonData.data.id).to.eql(pm.environment.get('ID'))\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify first_name\", function(){\r",
+							"    pm.expect(jsonData.data.first_name).to.eql(\"Sabbir\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify middle_name\", function(){\r",
+							"    pm.expect(jsonData.data.middle_name).to.eql(\"Rahman\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify last_name\", function(){\r",
+							"    pm.expect(jsonData.data.last_name).to.eql(\"Bijoy\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify date_of_birth\", function(){\r",
+							"    pm.expect(jsonData.data.date_of_birth).to.eql(\"10-10-1998\")\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/api/studentsDetails/{{ID}}",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails",
+						"{{ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"var statuscode = responseCode.code \r",
+							"\r",
+							"switch(statuscode){\r",
+							"    case 200:\r",
+							"       pm.test(\"Verify status code 200\")\r",
+							"       break\r",
+							"    case 201:\r",
+							"       pm.test(\"Verify status code 201\")\r",
+							"       break\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Verify Status\", function(){\r",
+							"    pm.expect(jsonData.status).to.eql(\"true\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify msg\", function(){\r",
+							"    pm.expect(jsonData.msg).to.eql(\"update  data success\")\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":{{ID}},\r\n  \"first_name\": \"Mehedi\",\r\n  \"middle_name\": \"Miraz \",\r\n  \"last_name\": \"sample \",\r\n  \"date_of_birth\": \"sample \"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/api/studentsDetails/{{ID}}",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails",
+						"{{ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"var statuscode = responseCode.code \r",
+							"\r",
+							"switch(statuscode){\r",
+							"    case 200:\r",
+							"       pm.test(\"Verify status code 200\")\r",
+							"       break\r",
+							"    case 201:\r",
+							"       pm.test(\"Verify status code 201\")\r",
+							"       break\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Verify Status\", function(){\r",
+							"    pm.expect(jsonData.status).to.eql(\"true\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Verify msg\", function(){\r",
+							"    pm.expect(jsonData.msg).to.eql(\"Delete  data success\")\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/api/studentsDetails/{{ID}}",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails",
+						"{{ID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
