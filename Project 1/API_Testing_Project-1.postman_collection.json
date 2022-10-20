@@ -1,0 +1,516 @@
+{
+	"info": {
+		"_postman_id": "6fbb42b7-f694-4909-8880-bf707077cf6c",
+		"name": "API_Testing_Project-1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23684538"
+	},
+	"item": [
+		{
+			"name": "Create_Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.environment.set(\"BookingID\", jsonData.bookingid)\r",
+							"\r",
+							"var StateCode = responseCode.code\r",
+							"\r",
+							"switch(StateCode){\r",
+							"    case 200:\r",
+							"       pm.test(\"Verify status code 200\", function () {\r",
+							"       console.log('StateCode')\r",
+							"       });\r",
+							"       break;\r",
+							"    case 201:\r",
+							"      pm.test(\"Verify status code 201\", function () {\r",
+							"      console.log('StateCode')\r",
+							"      });\r",
+							"      break;\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Verify BookingID\", function () {\r",
+							"    pm.expect(jsonData.bookingid).to.eql(pm.environment.get(\"BookingID\"));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Verify First name\", function () {\r",
+							"    pm.expect(jsonData.booking.firstname).to.eql(pm.environment.get(\"FirstName\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Last name\", function () {\r",
+							"    pm.expect(jsonData.booking.lastname).to.eql(pm.environment.get(\"LastName\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Total price\", function () {\r",
+							"    pm.expect(jsonData.booking.totalprice).to.eql(pm.environment.get(\"TotalPrice\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Depositpaid\", function () {\r",
+							"// Generated value library sets the value of the variable at environment in string(by default).\r",
+							"// So to test a Int value which is generated randomly, either we can parse it into Int in the pre-request script using parseInt(arguement) else we can parse the response body data into string using   (argument).toString  to match the values.  This case is applicable for boolean type as well.\r",
+							"    pm.expect(jsonData.booking.depositpaid.toString()).to.eql(pm.environment.get(\"Payment\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Check in date\", function () {\r",
+							"    pm.expect(jsonData.booking.bookingdates.checkin).to.eql(pm.environment.get(\"CheckIn\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Check out date\", function () {\r",
+							"    pm.expect(jsonData.booking.bookingdates.checkout).to.eql(pm.environment.get(\"CheckOut\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify additionalneeds\", function () {\r",
+							"    pm.expect(jsonData.booking.additionalneeds).to.eql(\"Breakfast\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"FirstName\", pm.variables.replaceIn('{{$randomFirstName}}'))\r",
+							"\r",
+							"pm.environment.set(\"LastName\", pm.variables.replaceIn('{{$randomLastName}}'))\r",
+							"\r",
+							"// Generated value library sets the value of the variable at environment in string(by default).\r",
+							"// So to test a Int value which is generated randomly, either we can parse it into Int in the pre-request script using parseInt(arguement) else we can parse the response body data into string using   (argument).toString  to match the values.  This case is applicable for boolean type as well.\r",
+							"pm.environment.set(\"TotalPrice\", parseInt(pm.variables.replaceIn('{{$randomInt}}')))\r",
+							"\r",
+							"pm.environment.set(\"Payment\", pm.variables.replaceIn('{{$randomBoolean}}'))\r",
+							"\r",
+							"const date = require('moment')\r",
+							"//const today = date()\r",
+							"pm.environment.set(\"CheckIn\", date().add(1,'day').format(\"YYYY-MM-DD\"))\r",
+							"pm.environment.set(\"CheckOut\", date().add(4,'day').format(\"YYYY-MM-DD\"))\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"firstname\" : \"{{FirstName}}\",\r\n\t\"lastname\" : \"{{LastName}}\",\r\n\t\"totalprice\" : \"{{TotalPrice}}\",\r\n\t\"depositpaid\" : \"{{Payment}}\",\r\n\t\"bookingdates\" : {\r\n    \t\"checkin\" : \"{{CheckIn}}\",\r\n    \t\"checkout\" : \"{{CheckOut}}\"\r\n\t},\r\n\t\"additionalneeds\" : \"Breakfast\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/booking",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							" var jsonData = pm.response.json()\r",
+							"\r",
+							"var StateCode = responseCode.code\r",
+							"\r",
+							"switch(StateCode){\r",
+							"    case 200:\r",
+							"       pm.test(\"Verify status code 200\", function () {\r",
+							"       console.log('StateCode')\r",
+							"       });\r",
+							"       break;\r",
+							"    case 201:\r",
+							"      pm.test(\"Verify status code 201\", function () {\r",
+							"      console.log('StateCode')\r",
+							"      });\r",
+							"      break;\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Verify First name\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.firstname).to.eql(pm.environment.get(\"FirstName\"));\r",
+							"});\r",
+							"pm.test(\"Verify Last name\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.lastname).to.eql(pm.environment.get(\"LastName\"));\r",
+							"});\r",
+							"pm.test(\"Verify Total price\", function () {\r",
+							"   \r",
+							"    pm.expect(jsonData.totalprice).to.eql(pm.environment.get(\"TotalPrice\"));\r",
+							"});\r",
+							"pm.test(\"Verify Depositpaid\", function () {\r",
+							"\r",
+							"// Generated value library sets the value of the variable at environment in string(by default).\r",
+							"// So to test a Int value which is generated randomly, either we can parse it into Int in the pre-request script using parseInt(arguement) else we can parse the response body data into string using   (argument).toString  to match the values.  This case is applicable for boolean type as well.\r",
+							"    pm.expect(jsonData.depositpaid.toString()).to.eql(pm.environment.get(\"Payment\"));\r",
+							"});\r",
+							"pm.test(\"Verify Check in date\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.bookingdates.checkin).to.eql(pm.environment.get(\"CheckIn\"));\r",
+							"});\r",
+							"pm.test(\"Verify Check out date\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.bookingdates.checkout).to.eql(pm.environment.get(\"CheckOut\"));\r",
+							"});\r",
+							"pm.test(\"Verify additionalneeds\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.additionalneeds).to.eql(\"Breakfast\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/booking/{{BookingID}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"{{BookingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication_token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var tokenData = pm.response.json()\r",
+							"\r",
+							"pm.environment.set(\"AccessToken\", tokenData.token)\r",
+							"\r",
+							"pm.test(\"Verify TokenID\", function () {\r",
+							"   \r",
+							"    pm.expect(tokenData.token).to.eql(pm.environment.get('AccessToken'));\r",
+							"});\r",
+							"\r",
+							"var StateCode = responseCode.code\r",
+							"\r",
+							"switch(StateCode){\r",
+							"    case 200:\r",
+							"       pm.test(\"Verify status code 200\", function () {\r",
+							"       console.log('StateCode')\r",
+							"       });\r",
+							"       break;\r",
+							"    case 201:\r",
+							"      pm.test(\"Verify status code 201\", function () {\r",
+							"      console.log('StateCode')\r",
+							"      });\r",
+							"      break;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\": \"admin\",\r\n\t\"password\": \"password123\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/auth",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"var StateCode = responseCode.code\r",
+							"\r",
+							"switch(StateCode){\r",
+							"    case 200:\r",
+							"       pm.test(\"Verify status code 200\", function () {\r",
+							"       console.log('StateCode')\r",
+							"       });\r",
+							"       break;\r",
+							"    case 201:\r",
+							"      pm.test(\"Verify status code 201\", function () {\r",
+							"      console.log('StateCode')\r",
+							"      });\r",
+							"      break;\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Verify First name\", function () {\r",
+							"    pm.expect(jsonData.firstname).to.eql(pm.environment.get(\"FirstName\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Last name\", function () {\r",
+							"    pm.expect(jsonData.lastname).to.eql(pm.environment.get(\"LastName\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Total price\", function () {\r",
+							"    pm.expect(jsonData.totalprice).to.eql(pm.environment.get(\"TotalPrice\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Depositpaid\", function () {\r",
+							"// Generated value library sets the value of the variable at environment in string(by default).\r",
+							"// So to test a Int value which is generated randomly, either we can parse it into Int in the pre-request script using parseInt(arguement) else we can parse the response body data into string using   (argument).toString  to match the values.  This case is applicable for boolean type as well.\r",
+							"    pm.expect(jsonData.depositpaid.toString()).to.eql(pm.environment.get(\"Payment\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Check in date\", function () {\r",
+							"    pm.expect(jsonData.bookingdates.checkin).to.eql(pm.environment.get(\"CheckIn\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Check out date\", function () {\r",
+							"    pm.expect(jsonData.bookingdates.checkout).to.eql(pm.environment.get(\"CheckOut\"));\r",
+							"});\r",
+							"pm.test(\"Verify additionalneeds\", function () {    \r",
+							"    pm.expect(jsonData.additionalneeds).to.eql(\"Lunch\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"FirstName\", pm.variables.replaceIn('{{$randomFirstName}}'))\r",
+							"\r",
+							"pm.environment.set(\"LastName\", pm.variables.replaceIn('{{$randomLastName}}'))\r",
+							"\r",
+							"// Generated value library sets the value of the variable at environment in string(by default).\r",
+							"// So to test a Int value which is generated randomly, either we can parse it into Int in the pre-request script using parseInt(arguement) else we can parse the response body data into string using   (argument).toString  to match the values.  This case is applicable for boolean type as well.\r",
+							"pm.environment.set(\"TotalPrice\", parseInt(pm.variables.replaceIn('{{$randomInt}}')))\r",
+							"\r",
+							"pm.environment.set(\"Payment\", pm.variables.replaceIn('{{$randomBoolean}}'))\r",
+							"\r",
+							"const date = require('moment')\r",
+							"//const today = date()\r",
+							"pm.environment.set(\"CheckIn\", date().add(4,'day').format(\"YYYY-MM-DD\"))\r",
+							"pm.environment.set(\"CheckOut\", date().add(8,'day').format(\"YYYY-MM-DD\"))\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token={{AccessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\" : \"{{FirstName}}\",\r\n\t\"lastname\" : \"{{LastName}}\",\r\n\t\"totalprice\" : \"{{TotalPrice}}\",\r\n\t\"depositpaid\" : \"{{Payment}}\",\r\n    \"bookingdates\": {\r\n        \"checkin\" : \"{{CheckIn}}\",\r\n    \t\"checkout\" : \"{{CheckOut}}\"\r\n    },\r\n    \"additionalneeds\": \"Lunch\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/booking/{{BookingID}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"{{BookingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Account_After_Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							" var jsonData = pm.response.json()\r",
+							"\r",
+							"var StateCode = responseCode.code\r",
+							"\r",
+							"switch(StateCode){\r",
+							"    case 200:\r",
+							"       pm.test(\"Verify status code 200\", function () {\r",
+							"       console.log('StateCode')\r",
+							"       });\r",
+							"       break;\r",
+							"    case 201:\r",
+							"      pm.test(\"Verify status code 201\", function () {\r",
+							"      console.log('StateCode')\r",
+							"      });\r",
+							"      break;\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Verify First name\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.firstname).to.eql(pm.environment.get(\"FirstName\"));\r",
+							"});\r",
+							"pm.test(\"Verify Last name\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.lastname).to.eql(pm.environment.get(\"LastName\"));\r",
+							"});\r",
+							"pm.test(\"Verify Total price\", function () {\r",
+							"   \r",
+							"    pm.expect(jsonData.totalprice).to.eql(pm.environment.get(\"TotalPrice\"));\r",
+							"});\r",
+							"pm.test(\"Verify Depositpaid\", function () {\r",
+							"\r",
+							"// Generated value library sets the value of the variable at environment in string(by default).\r",
+							"// So to test a Int value which is generated randomly, either we can parse it into Int in the pre-request script using parseInt(arguement) else we can parse the response body data into string using   (argument).toString  to match the values.  This case is applicable for boolean type as well.\r",
+							"    pm.expect(jsonData.depositpaid.toString()).to.eql(pm.environment.get(\"Payment\"));\r",
+							"});\r",
+							"pm.test(\"Verify Check in date\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.bookingdates.checkin).to.eql(pm.environment.get(\"CheckIn\"));\r",
+							"});\r",
+							"pm.test(\"Verify Check out date\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.bookingdates.checkout).to.eql(pm.environment.get(\"CheckOut\"));\r",
+							"});\r",
+							"pm.test(\"Verify additionalneeds\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.additionalneeds).to.eql(\"Lunch\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/booking/{{BookingID}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"{{BookingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"var StateCode = responseCode.code\r",
+							"\r",
+							"switch(StateCode){\r",
+							"    case 200:\r",
+							"       pm.test(\"Verify status code 200\", function () {\r",
+							"       console.log('StateCode')\r",
+							"       });\r",
+							"       break;\r",
+							"    case 201:\r",
+							"      pm.test(\"Verify status code 201\", function () {\r",
+							"      console.log('StateCode')\r",
+							"      });\r",
+							"      break;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token={{AccessToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/booking/{{BookingID}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"booking",
+						"{{BookingID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
