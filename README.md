@@ -2,7 +2,7 @@
 - [Introduction](https://github.com/Shahriar-1810/API-Testing-Projects#introduction)    
 - [Summary](https://github.com/Shahriar-1810/API-Testing-Projects#summary)      
 - [Requirements](https://github.com/Shahriar-1810/API-Testing-Projects#requirements)    
-- [Pre-request Script Details](https://github.com/Shahriar-1810/API-Testing-Projects#Pre-request Script Details)
+- [Pre-request Script Details](https://github.com/Shahriar-1810/API-Testing-Projects#Pre-request-Script-Details)
 
 # Introduction
 This document explains how to run an API test with Postman on a Book booking website.    
