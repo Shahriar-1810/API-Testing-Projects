@@ -20,6 +20,13 @@ This document explains how to run an API test with Postman on a Book booking web
 # Summary    
 Completed an API test on Book booking site and the link is below.   
 https://restful-booker.herokuapp.com/
+
+**Tasks Done**
+- CRUD Operation such as Create, Get, Put, Delete.
+- Writing Pre-request Scripts using Dynamic Parameter.
+- API Request & Response Chaining.
+- Writing Test Scripts (For Data Validation).
+- Newman HTML & HTML Extra Report.
   
 **Summary:** Total **6 API requests**, **4 Pre-request scripts**, and **36 Assertions** were done, with **4 failed tests** and **0 skipped tests**.
 Here in this API books can be booked with a centain check in and check out. Bookings can be viewed, updated, and deleted as well.
