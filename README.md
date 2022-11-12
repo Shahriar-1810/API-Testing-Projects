@@ -27,24 +27,48 @@ https://nodejs.org/en/
 # Pre-request Script Details   
 #### Create Booking
 ```bash
-// set random FirstName variable
+//set random FirstName variable
 pm.environment.set("FirstName", pm.variables.replaceIn('{{$randomFirstName}}'))
 
-// set random LastName variable
+//set random LastName variable
 pm.environment.set("LastName", pm.variables.replaceIn('{{$randomLastName}}'))
 
-// set random integer as price variable
+//set random integer as price variable
 pm.environment.set("TotalPrice", parseInt(pm.variables.replaceIn('{{$randomInt}}')))
 
-// set random boolean as payment variable
+//set random boolean as payment variable
 pm.environment.set("Payment", pm.variables.replaceIn('{{$randomBoolean}}'))
 
-// set the time
+//set the time
 const date = require('moment')
 
-// set check in date
+//set check in date
 pm.environment.set("CheckIn", date().add(1,'day').format("YYYY-MM-DD"))
 
-// set check out date
+//set check out date
 pm.environment.set("CheckOut", date().add(4,'day').format("YYYY-MM-DD"))
+```
+
+#### Updating Booking
+```bash
+//set random FirstName variable
+pm.environment.set("FirstName", pm.variables.replaceIn('{{$randomFirstName}}'))
+
+//set random LastName variable
+pm.environment.set("LastName", pm.variables.replaceIn('{{$randomLastName}}'))
+
+//set random integer as price variable
+pm.environment.set("TotalPrice", parseInt(pm.variables.replaceIn('{{$randomInt}}')))
+
+//set random boolean as payment variable
+pm.environment.set("Payment", pm.variables.replaceIn('{{$randomBoolean}}'))
+
+//set the time
+const date = require('moment')
+
+//set check in date
+pm.environment.set("CheckIn", date().add(4,'day').format("YYYY-MM-DD"))
+
+//set check out date
+pm.environment.set("CheckOut", date().add(8,'day').format("YYYY-MM-DD"))
 ```
