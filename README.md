@@ -3,10 +3,10 @@
 - [Summary](https://github.com/Shahriar-1810/API-Testing-Projects#summery)      
 - [Requirements](https://github.com/Shahriar-1810/API-Testing-Projects#requirements)      
 
- Introduction
+# Introduction
 This document explains how to run an API test with Postman on a Book booking website.    
 
-# Summery    
+# Summary    
 Completed an API test on Book booking site and the link is below.   
 https://restful-booker.herokuapp.com/
   
@@ -25,4 +25,4 @@ Here in this API books can be booked with a centain check in and check out. Book
 **Postman**   
 https://www.postman.com/   
 **Node JS**   
-https://nodejs.org/en/    
+https://nodejs.org/en/   
